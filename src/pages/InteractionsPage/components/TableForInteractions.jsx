@@ -24,7 +24,7 @@ const TableForInteractions = ({
       requestData();
     }, 1000); // Обновление данных каждую секунду
 
-    return () => clearInterval(intervalId); // Очистка интервала при размонтировании компонента
+    return () => clearInterval(intervalId); // Очистка интервала компонента
   }, []);
 
   useEffect(() => {
