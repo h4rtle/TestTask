@@ -95,7 +95,7 @@ const AddObjects = ({
         </div>
       </div>
       <div className="response-field">
-        <h3>Ответ сервера</h3>
+        <h3>Ответ сервера:</h3>
         <textarea value={serverResponse} readOnly={true} />
       </div>
     </div>
