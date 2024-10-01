@@ -2,7 +2,7 @@ import React from "react";
 
 const CellInteractionsItem = ({ cell, onClick }) => {
   return (
-    <tr onClick={onClick}>
+    <tr onClick={onClick} className="tr">
       <td>{cell.object_id}</td>
       <td>{cell.object_name}</td>
       <td>{cell.object_type}</td>
