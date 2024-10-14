@@ -1,44 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { getInformationByTableForInteractions } from "../../../api/requests";
-import CellInteractionsItem from "./CellInteractionsItem";
+import { requestData } from "../api/requests";
 import {
   handleCellClick,
-  handleCloseField,
-  handleCellDelete,
   handleCellChange,
-  handleNewObject,
+  handleCellDelete,
 } from "./Handlers";
+import CellInteractionsItem from "./CellInteractionsItem";
 
-const TableForInteractions = ({
-  cells: propsCells,
-  setCells,
-  setServerResponse,
-}) => {
-  const [tableCells, setTableCells] = useState(propsCells);
+const TableForInteractions = ({ setCells, setServerResponse }) => {
+  const [tableCells, setTableCells] = useState([]);
   const [selectedCell, setSelectedCell] = useState(null);
   const [showField, setShowField] = useState(false);
   const [objectData, setObjectData] = useState({});
+  const [error, setError] = useState(null); // Состояние для хранения ошибки
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      requestData();
-    }, 1000); // Обновление данных каждую секунду
+    const fetchData = async () => {
+      try {
+        await requestData(setTableCells, setCells);
+        setError(null); // Сброс ошибки, если запрос успешен
+      } catch (err) {
+        setError("Связь с сервером оборвалась. Пожалуйста, попробуйте позже.");
+      }
+    };
 
-    return () => clearInterval(intervalId); // Очистка интервала компонента
+    fetchData();
+    const intervalId = setInterval(fetchData, 1000);
+    return () => clearInterval(intervalId);
   }, []);
-
-  useEffect(() => {
-    setTableCells(propsCells);
-  }, [propsCells]);
-
-  const requestData = () => {
-    getInformationByTableForInteractions()
-      .then((data) => setTableCells(data.objects || []))
-      .catch((error) => console.error(error));
-  };
 
   return (
     <div className="table-field">
+      {error && <div className="error-notification">{error}</div>}{" "}
+      {/* Уведомление об ошибке */}
       <table>
         <thead>
           <tr>
@@ -49,9 +43,9 @@ const TableForInteractions = ({
           </tr>
         </thead>
         <tbody>
-          {tableCells.map((cell, index) => (
+          {tableCells.map((cell) => (
             <CellInteractionsItem
-              key={index}
+              key={cell.object_id}
               cell={cell}
               onClick={() =>
                 handleCellClick(
@@ -85,10 +79,8 @@ const TableForInteractions = ({
                 />
               </div>
               <div className="input-box">
-                <span>Введите - "object_type"</span>
-                <input
-                  id="object_type"
-                  type="text"
+                <span>Выберите - "object_type"</span>
+                <select
                   value={objectData.object_type || ""}
                   onChange={(e) =>
                     setObjectData({
@@ -96,7 +88,12 @@ const TableForInteractions = ({
                       object_type: e.target.value,
                     })
                   }
-                />
+                >
+                  <option value="">Выберите тип объекта</option>
+                  <option value="EMS">EMS</option>
+                  <option value="Network node">Network node</option>
+                  <option value="Data Element SNMP">Data Element SNMP</option>
+                </select>
               </div>
               <div className="input-box">
                 <span>Введите - "object_description"</span>
@@ -148,7 +145,7 @@ const TableForInteractions = ({
           <div className="close-button-container">
             <button
               className="btn btn-primary btn-sm"
-              onClick={() => handleCloseField(setShowField)}
+              onClick={() => setShowField(false)}
             >
               Закрыть
             </button>

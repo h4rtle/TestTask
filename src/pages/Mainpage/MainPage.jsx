@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import LineGraph from "./components/LineGraph";
-import Table from "./components/Table";
-import Filter from "./components/Filter";
+import LineGraph from "../../components/LineGraph";
+import Filter from "../../components/Filter";
 
 const MainPage = () => {
   const [filterTypes, setFilterTypes] = useState({
@@ -15,7 +14,7 @@ const MainPage = () => {
       <h2>Текущая загрузка процессора</h2>
       <LineGraph />
 
-      <h2>Таблица последних событий</h2>
+      <h2>Таблица 30-ти последних событий</h2>
       <Filter filterTypes={filterTypes} setFilterTypes={setFilterTypes} />
     </>
   );

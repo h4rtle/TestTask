@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import TableForInteractions from "./components/TableForInteractions";
-import AddObjects from "./components/AddObjects";
-import { handleNewObject } from "./components/Handlers";
+import TableForInteractions from "../../components/TableForInteractions";
+import AddObjects from "../../components/AddObjects";
 
 const InteractionsPage = () => {
   const [tableCells, setTableCells] = useState([]);
@@ -10,17 +9,26 @@ const InteractionsPage = () => {
   return (
     <>
       <TableForInteractions
-        cells={tableCells}
         setCells={setTableCells}
         setServerResponse={setServerResponse}
       />
-      <AddObjects
-        handleNewObject={handleNewObject}
-        tableCells={tableCells}
-        setTableCells={setTableCells}
-        setServerResponse={setServerResponse}
-        serverResponse={serverResponse}
-      />
+      <div className="container">
+        <AddObjects
+          tableCells={tableCells}
+          setTableCells={setTableCells}
+          setServerResponse={setServerResponse}
+          serverResponse={serverResponse}
+        />
+        <div className="response-field">
+          <h3>Ответ сервера:</h3>
+          <textarea
+            value={serverResponse}
+            readOnly={true}
+            rows="10"
+            cols="50"
+          />
+        </div>
+      </div>
     </>
   );
 };

@@ -31,26 +31,30 @@ export const getInformationByTableForInteractions = async () => {
 };
 
 export const changeInformationByTableForInteractions = async (data) => {
-  if (!data || !data.operation_type || !data.data) {
-    console.error("Недостаточно данных для обновления объекта");
+  try {
+    const response = await instance.post("/manage_object", data);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      console.error("Ошибка на сервере:", response);
+      return null;
+    }
+  } catch (error) {
+    console.error("Ошибка запроса:", error);
     return null;
   }
+};
 
-  const { operation_type, data: objectData } = data;
-
-  const jsonData = JSON.stringify({
-    operation_type: operation_type,
-    data: objectData,
-  });
-
+export const requestData = async (setTableCells, setCells) => {
   try {
-    const response = await instance.post("/manage_object", jsonData, {
-      headers: { "Content-Type": "application/json" },
-    });
-    console.log("Ответ от сервера:", response);
-    return response.data;
+    const response = await getInformationByTableForInteractions();
+    if (response && response.objects) {
+      setTableCells(response.objects);
+      setCells(response.objects);
+    } else {
+      console.error("Ошибка получения данных с сервера");
+    }
   } catch (error) {
-    console.error("Ошибка:", error);
-    return null;
+    console.error("Ошибка получения данных:", error);
   }
 };

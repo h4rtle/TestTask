@@ -1,4 +1,4 @@
-import { getInformationForTable } from "../../../api/requests";
+import { getInformationForTable } from "../api/requests";
 import React, { useEffect, useState } from "react";
 import CellItem from "./CellItem";
 
@@ -49,6 +49,9 @@ const Table = ({ filterTypes, startDate, endDate }) => {
     return true;
   });
 
+  // Ограничиваем количество строк до 30
+  const limitedCells = filteredCellsByDate.slice(0, 30);
+
   return (
     <div className="table-field">
       <table>
@@ -60,7 +63,7 @@ const Table = ({ filterTypes, startDate, endDate }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredCellsByDate.map((cell, index) => (
+          {limitedCells.map((cell, index) => (
             <CellItem key={index} cell={cell} />
           ))}
         </tbody>

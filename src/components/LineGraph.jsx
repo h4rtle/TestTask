@@ -1,7 +1,7 @@
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import React, { useEffect, useState } from "react";
-import { getNumberForGraph } from "../../../api/requests";
+import { getNumberForGraph } from "../api/requests";
 
 Chart.register(...registerables);
 
@@ -48,22 +48,28 @@ const LineGraph = () => {
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      const data = await getNumberForGraph(); //присваиваем данные в переменную
-      setChartData((prevChartData) => {
-        const newData = [...prevChartData.datasets[0].data, data.cpu_usage]; // присваиваем данные в новый массив
-        if (newData.length > 30) {
-          newData.shift();
-        } // если массив данных больше 30 то удаляет первое
-        return {
-          ...prevChartData,
-          datasets: [
-            {
-              ...prevChartData.datasets[0],
-              data: newData,
-            },
-          ],
-        }; //обновляет данные массивана основе предыдущих
-      });
+      const data = await getNumberForGraph(); // Присваиваем данные в переменную
+      if (data && data.cpu_usage !== undefined) {
+        setChartData((prevChartData) => {
+          const newData = [...prevChartData.datasets[0].data, data.cpu_usage]; // Присваиваем данные в новый массив
+          if (newData.length > 30) {
+            newData.shift();
+          } // Если массив данных больше 30, то удаляет первое
+          return {
+            ...prevChartData,
+            datasets: [
+              {
+                ...prevChartData.datasets[0],
+                data: newData,
+              },
+            ],
+          }; // Обновляет данные массива на основе предыдущих
+        });
+      } else {
+        alert(
+          "Не удалось получить данные с сервера. Пожалуйста, проверьте соединение."
+        );
+      }
     }, 1000);
 
     return () => clearInterval(intervalId);
