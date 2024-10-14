@@ -21,47 +21,63 @@ export const handleCellChange = async (
 ) => {
   if (!selectedCell) return;
 
-  const updatedData = {};
-  if (objectData.object_name !== selectedCell.object_name) {
-    updatedData.object_name = objectData.object_name;
-  }
-  if (objectData.object_type !== selectedCell.object_type) {
-    updatedData.object_type = objectData.object_type;
-  }
-  if (objectData.object_description !== selectedCell.object_description) {
-    updatedData.object_description = objectData.object_description;
+  const updatedFields = [];
+
+  if (objectData.object_name !== undefined) {
+    updatedFields.push({
+      operation_type: "update",
+      data: {
+        object_id: selectedCell.object_id,
+        object_name: objectData.object_name,
+      },
+    });
   }
 
-  if (Object.keys(updatedData).length === 0) {
-    console.log("Нет изменений для отправки");
-    return;
+  if (objectData.object_type !== undefined) {
+    updatedFields.push({
+      operation_type: "update",
+      data: {
+        object_id: selectedCell.object_id,
+        object_type: objectData.object_type,
+      },
+    });
   }
 
-  const dataToSend = {
-    operation_type: "update",
-    data: {
-      object_id: selectedCell.object_id,
-      ...updatedData,
-    },
-  };
+  if (objectData.object_description !== undefined) {
+    updatedFields.push({
+      operation_type: "update",
+      data: {
+        object_id: selectedCell.object_id,
+        object_description: objectData.object_description,
+      },
+    });
+  }
 
   try {
-    const response = await changeInformationByTableForInteractions(dataToSend);
-    if (response && response.operation === "update") {
-      const newTableCells = tableCells.map((cell) =>
-        cell.object_id === selectedCell.object_id
-          ? { ...cell, ...objectData }
-          : cell
-      );
-      setTableCells(newTableCells);
-      setServerResponse(JSON.stringify(response, null, 2));
-    } else {
-      console.error("Ошибка при изменении данных на сервере");
+    for (const field of updatedFields) {
+      const response = await changeInformationByTableForInteractions(field);
+
+      if (response && response.operation === "update") {
+        const newTableCells = tableCells.map((cell) =>
+          cell.object_id === selectedCell.object_id
+            ? { ...cell, ...field.data }
+            : cell
+        );
+
+        setTableCells(newTableCells);
+        setServerResponse(JSON.stringify(response, null, 2));
+      } else {
+        console.error(
+          "Ошибка при изменении данных на сервере:",
+          response ? response.errors : "Неизвестная ошибка"
+        );
+      }
     }
-    setShowField(false);
   } catch (error) {
     console.error("Ошибка при изменении данных:", error);
   }
+
+  setShowField(false);
 };
 
 export const handleCellDelete = async (

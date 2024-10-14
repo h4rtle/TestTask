@@ -18,7 +18,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
     const fetchData = async () => {
       try {
         await requestData(setTableCells, setCells);
-        setError(null); // Сброс ошибки, если запрос успешен
+        setError(null);
       } catch (err) {
         setError("Связь с сервером оборвалась. Пожалуйста, попробуйте позже.");
       }
@@ -27,7 +27,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
     fetchData();
     const intervalId = setInterval(fetchData, 1000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [setCells]);
 
   return (
     <div className="table-field">
