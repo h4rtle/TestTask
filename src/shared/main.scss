@@ -4,7 +4,6 @@ $button-bg-color: #007bff;
 $button-hover-bg-color: #0056b3;
 $button-text-color: #fff;
 
-// Общие стили
 html, body, #root {
   height: 100%;
 }
@@ -43,10 +42,10 @@ main {
   align-items: center;
   padding: 3% 10%;
   height: auto;
-  h2,button{
+
+  h2, button {
     margin-bottom: 5%;
   }
-
 }
 
 .line-graph {
@@ -83,60 +82,50 @@ main {
   }
 
   &__details {
+    height: 350px;
     display: flex;
     flex-direction: column;
+    margin-top: 1%;
     margin-bottom: 5%;
     border: 1px solid $border-color;
     border-radius: 5px;
-    padding: 1%;
+    
+    background-color: #f8f9fa;
   }
 
   &__selected-object {
+    text-align: center;
     margin-bottom: 1%;
   }
 
   &__actions {
+    width: 100%;
     padding: 1%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    input, button {
-      height: 100%;
-      margin-right: 8px;
-    }
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 0;
   }
 
   &__input-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
+    margin: 1%;
+    width: 100%;
   }
 
   &__input-box {
     display: flex;
     flex-direction: column;
-    margin-right: 5px;
+    margin-bottom: 10px;
   }
 
   &__button-container {
     display: flex;
-    align-items: center;
-
-    button {
-      height: 30px;
-    }
-  }
-
-  &__close-button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding-right: 1%;
-
-    button {
-      margin-right: 7px;
-    }
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 10px;
   }
 }
 
@@ -151,7 +140,7 @@ main {
 
     textarea {
       min-height: 30px;
-      max-height: 108px;
+      max-height: 120px;
       width: 100%;
     }
   }
@@ -163,7 +152,7 @@ main {
 }
 
 .container {
-  height: 300px;
+  height: 350px;
   width: 100%;
   padding: 2%;
   display: flex;
@@ -218,7 +207,7 @@ main {
 
 .select-container {
   display: flex;
- flex-direction: column;
+  flex-direction: column;
 }
 
 .select-date-container {
@@ -231,7 +220,7 @@ main {
 
 button {
   background-color: $button-bg-color;
-  color: $button-text-color;
+  color: $button-text-color ;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
@@ -247,26 +236,38 @@ button {
   }
 }
 
-.table-field{
+.table-field {
   width: 100%;
   text-align: center;
-  table{
+  table {
     width: 100%;
   }
-  th:nth-child(1){
+
+  th:nth-child(1) {
     width: 15%;
     padding: 5px;
   }
-  th:nth-child(2){
+
+  th:nth-child(2) {
     width: 15%;
   }
-  th:nth-child(3){
+
+  th:nth-child(3) {
     width: 15%;
   }
-  td{
+
+  td {
     border: 1px solid $border-color;
   }
-  th{
+
+  th {
     border: 1px solid $border-color;
   }
+}
+
+input, select {
+  padding: 8px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  width: 100%;
 }

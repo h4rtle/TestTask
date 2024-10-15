@@ -142,15 +142,13 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
               >
                 Удалить
               </button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => setShowField(false)}
+              >
+                Закрыть
+              </button>
             </div>
-          </div>
-          <div className="table-for-interactions__close-button-container">
-            <button
-              className="btn btn-primary btn-sm"
-              onClick={() => setShowField(false)}
-            >
-              Закрыть
-            </button>
           </div>
         </div>
       )}
