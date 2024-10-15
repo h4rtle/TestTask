@@ -14,7 +14,7 @@ const MainPage = () => {
       <h2>Текущая загрузка процессора</h2>
       <LineGraph />
 
-      <h2>Таблица 30-ти последних событий</h2>
+      <h2>Таблица</h2>
       <Filter filterTypes={filterTypes} setFilterTypes={setFilterTypes} />
     </>
   );
