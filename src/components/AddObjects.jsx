@@ -7,9 +7,7 @@ const AddObjects = ({ tableCells, setTableCells, setServerResponse }) => {
   const [objectDescription, setObjectDescription] = useState("");
 
   const handleAddObject = async () => {
-    // Локальная функция
     await addObjectHandler(
-      // Используйте переименованную функцию
       objectName,
       objectType,
       objectDescription,
@@ -24,8 +22,8 @@ const AddObjects = ({ tableCells, setTableCells, setServerResponse }) => {
   };
 
   return (
-    <div className="add-object-field">
-      <div className="add-object-item">
+    <div className="add-objects-field">
+      <div className="add-objects-item">
         <p>Добавить объект:</p>
         <input
           type="text"
@@ -34,7 +32,7 @@ const AddObjects = ({ tableCells, setTableCells, setServerResponse }) => {
           placeholder="Имя объекта"
         />
       </div>
-      <div className="add-object-item">
+      <div className="add-objects-item">
         <select
           value={objectType}
           onChange={(e) => setObjectType(e.target.value)}
@@ -42,17 +40,20 @@ const AddObjects = ({ tableCells, setTableCells, setServerResponse }) => {
           <option value="">Выберите тип объекта</option>
           <option value="EMS">EMS</option>
           <option value="Network node">Network node</option>
-          <option value="Data Element SNMP">Data Element SNMP</option>
+          <option value="Data Element SNMP"> Data Element SNMP</option>
         </select>
       </div>
-      <div className="add-object-item">
+      <div className="add-objects-item">
         <textarea
           value={objectDescription}
           onChange={(e) => setObjectDescription(e.target.value)}
           placeholder="Описание объекта"
         />
       </div>
-      <button onClick={handleAddObject} className="btn btn-primary btn-sm">
+      <button
+        onClick={handleAddObject}
+        className="add-objects-button btn btn-primary btn-sm"
+      >
         Добавить
       </button>
     </div>

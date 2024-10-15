@@ -12,7 +12,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
   const [selectedCell, setSelectedCell] = useState(null);
   const [showField, setShowField] = useState(false);
   const [objectData, setObjectData] = useState({});
-  const [error, setError] = useState(null); // Состояние для хранения ошибки
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,16 +30,16 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
   }, [setCells]);
 
   return (
-    <div className="table-field">
-      {error && <div className="error-notification">{error}</div>}{" "}
+    <div className="table-for-interactions">
+      {error && <div className="table-for-interactions__error">{error}</div>}{" "}
       {/* Уведомление об ошибке */}
-      <table>
+      <table className="table-for-interactions__table">
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Тип</th>
-            <th>Описание</th>
+          <tr className="table-for-interactions__row">
+            <th className="table-for-interactions__header">ID</th>
+            <th className="table-for-interactions__header">Имя</th>
+            <th className="table-for-interactions__header">Тип</th>
+            <th className="table-for-interactions__header">Описание</th>
           </tr>
         </thead>
         <tbody>
@@ -60,11 +60,13 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
         </tbody>
       </table>
       {showField && (
-        <div className="show-field">
-          <p>Вы выбрали объект: {selectedCell.object_name}</p>
-          <div className="change-delete-field">
-            <div className="input-container">
-              <div className="input-box">
+        <div className="table-for-interactions__details">
+          <p className="table-for-interactions__selected-object">
+            Вы выбрали объект: {selectedCell.object_name}
+          </p>
+          <div className="table-for-interactions__actions">
+            <div className="table-for-interactions__input-container">
+              <div className="table-for-interactions__input-box">
                 <span>Введите - "object_name"</span>
                 <input
                   id="object_name"
@@ -78,7 +80,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
                   }
                 />
               </div>
-              <div className="input-box">
+              <div className="table-for-interactions__input-box">
                 <span>Выберите - "object_type"</span>
                 <select
                   value={objectData.object_type || ""}
@@ -95,7 +97,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
                   <option value="Data Element SNMP">Data Element SNMP</option>
                 </select>
               </div>
-              <div className="input-box">
+              <div className="table-for-interactions__input-box">
                 <span>Введите - "object_description"</span>
                 <input
                   id="object_description"
@@ -110,7 +112,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
                 />
               </div>
             </div>
-            <div className="button-container">
+            <div className="table-for-interactions__button-container">
               <button
                 className="btn btn-primary btn-sm"
                 onClick={() =>
@@ -142,7 +144,7 @@ const TableForInteractions = ({ setCells, setServerResponse }) => {
               </button>
             </div>
           </div>
-          <div className="close-button-container">
+          <div className="table-for-interactions__close-button-container">
             <button
               className="btn btn-primary btn-sm"
               onClick={() => setShowField(false)}
